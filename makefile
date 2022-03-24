@@ -4,7 +4,7 @@
 OBJS	= src/ABP/main.o src/file/file.o src/AVL/main.o
 OUT	= out/parafraseABP,out/parafraseAVL
 
-OBJS0	= out/ABP/main.o out/file/file.o
+OBJS0	= out/ABP/main.o out/file/file.o out/ABP/abp.o
 SOURCE0	= src/ABP/main.c src/file/file.c
 HEADER0	= src/ABP/main.h src/file/file.h
 OUT0	= out/parafraseABP
@@ -33,6 +33,9 @@ out/parafraseAVL: $(OBJS1) $(LFLAGS)
 # create/compile the individual files >>separately<<
 out/ABP/main.o: src/ABP/main.c
 	$(CC) $(FLAGS) src/ABP/main.c -o out/ABP/main.o
+
+out/ABP/abp.o: src/ABP/abp.c
+	$(CC) $(FLAGS) src/ABP/abp.c -o out/ABP/abp.o
 
 out/file/file.o: src/file/file.c
 	$(CC) $(FLAGS) src/file/file.c -o out/file/file.o 

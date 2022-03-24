@@ -45,6 +45,24 @@ ABP     novaArvore(ABPDado key, char *sinonimo);
 ABPNo* _removerEsq(ABP *arvore);
 ABPNo* _removerDir(ABP *arvore);
 
+/* Contar quantos nodos a arvore tem */
+int     contaNos(ABP arvore);
 
+/* Imprime a arvore no stdout usando o caminhamento
+	pré-fixado à esquerda */
+void    imprime_caminhamento(ABP arvore);
+
+/* Imprime a árvore identando segundo o nível de cada nó */
+void 	imprime_identado(ABP arvore);
+
+/* Imprime a árvore identando segundo o nível de cada nó 
+iniciando em i */
+void 	imprime_identado_from(ABP arvore, int i);
+
+int getAltura(ABP arvore);
+
+void pretty_print (ABP arvore);
+
+void partial_pretty_print(ABP arvore, int ident);
 
 #endif // _ABP_H_
