@@ -1,4 +1,5 @@
 #include "abp.h"
+#include "../profiling/profiling.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -21,6 +22,7 @@ ABPNo* maiorNo(ABP arvore) {
 }
 
 bool isVazia(ABP arvore) {
+    INC_COMP;
     return arvore == NULL;
 }
 
@@ -44,24 +46,23 @@ void inserirABP(ABP *arvore, ABPDado key, char *sinonimo) {
     }
 
     if (strcmp((*arvore)->key, key)>0) {
+        INC_COMP;
         inserirABP(&(*arvore)->esquerda, key, sinonimo);
         return;
     }
 
-    if (strcmp((*arvore)->key, key)<0) {
-        inserirABP(&(*arvore)->direita, key, sinonimo);
-        return;
-    }
-    // Não é possivel inserir na arvore dois itens com mesmo valor;
+    inserirABP(&(*arvore)->direita, key, sinonimo);
     return;
 }
 
 
 ABPNo* removerABP(ABP *arvore, ABPDado key) {
     ABP no = consultaABP(*arvore, key);
+        INC_COMP;
     if( no == NULL) {
         return NULL; // Item não existe;
     }
+        INC_COMP;
     if ( no == *arvore ) {
         *arvore = NULL;
         return no;
@@ -70,6 +71,7 @@ ABPNo* removerABP(ABP *arvore, ABPDado key) {
     ABP *pai = arvore;
     
     while (((*pai)->esquerda != no) &&((*pai)->direita != no)) {
+        INC_COMP;
         if (strcmp((*pai)->key ,key) > 0) {
             pai = &(*pai)->esquerda;
         } else {
@@ -77,10 +79,10 @@ ABPNo* removerABP(ABP *arvore, ABPDado key) {
         }
     }
     
+    INC_COMP;
     if ((*pai)->esquerda == no) {
         return _removerEsq(pai);
     } else {
-
         return _removerDir(pai);
     }
 }
@@ -129,14 +131,25 @@ ABPNo* _removerDir(ABP *arvore) {
 }
 
 ABPNo*  consultaABP(ABP arvore, ABPDado key) {
-    if (arvore == NULL) return NULL;
-    if (strcmp(arvore->key ,key) == 0) {
+    if (isVazia(arvore)) return NULL;
+
+    INC_COMP;
+    if (strcmp(arvore->key ,key) == 0)
         return arvore;
-    } else if (consultaABP(arvore->esquerda, key) != NULL) {
-        return consultaABP(arvore->esquerda, key);
-    } else if (consultaABP(arvore->direita, key) != NULL) {
-        return consultaABP(arvore->direita, key);
-    } else return NULL;
+
+    ABPNo* buscaEsq = consultaABP(arvore->esquerda, key);
+
+    INC_COMP;
+    if (buscaEsq != NULL)
+        return buscaEsq;
+     
+    ABPNo* buscaDir = consultaABP(arvore->direita, key);
+
+    INC_COMP;
+    if (buscaDir != NULL) 
+        return buscaDir;
+
+    return NULL;
 }
 
 int contaNos(ABP arvore) {

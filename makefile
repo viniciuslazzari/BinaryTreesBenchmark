@@ -4,12 +4,12 @@
 OBJS	= src/ABP/main.o src/file/file.o src/AVL/main.o
 OUT	= out/parafraseABP,out/parafraseAVL
 
-OBJS0	= out/ABP/main.o out/file/file.o out/ABP/abp.o
+OBJS0	= out/ABP/main.o out/file/file.o out/ABP/abp.o out/profiling/profiling.o
 SOURCE0	= src/ABP/main.c src/file/file.c
 HEADER0	= src/ABP/main.h src/file/file.h
 OUT0	= out/parafraseABP
 
-OBJS1	= out/AVL/main.o out/file/file.o
+OBJS1	= out/AVL/main.o out/file/file.o out/profiling/profiling.o
 SOURCE1	= src/AVL/main.c src/file/file.c
 HEADER1	= src/AVL/main.h src/file/file.h
 OUT1	= out/parafraseAVL
@@ -39,6 +39,9 @@ out/ABP/abp.o: src/ABP/abp.c
 
 out/file/file.o: src/file/file.c
 	$(CC) $(FLAGS) src/file/file.c -o out/file/file.o 
+
+out/profiling/profiling.o: src/profiling/profiling.c src/profiling/profiling.h
+	$(CC) $(FLAGS) src/profiling/profiling.c -o out/profiling/profiling.o
 
 out/AVL/main.o: src/AVL/main.c
 	$(CC) $(FLAGS) src/AVL/main.c -o out/AVL/main.o
