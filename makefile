@@ -9,7 +9,7 @@ SOURCE0	= src/ABP/main.c src/file/file.c
 HEADER0	= src/ABP/main.h src/file/file.h
 OUT0	= out/parafraseABP
 
-OBJS1	= out/AVL/main.o out/file/file.o out/profiling/profiling.o
+OBJS1	= out/AVL/main.o out/file/file.o out/AVL/avl.o out/profiling/profiling.o
 SOURCE1	= src/AVL/main.c src/file/file.c
 HEADER1	= src/AVL/main.h src/file/file.h
 OUT1	= out/parafraseAVL
@@ -45,6 +45,9 @@ out/profiling/profiling.o: src/profiling/profiling.c src/profiling/profiling.h
 
 out/AVL/main.o: src/AVL/main.c
 	$(CC) $(FLAGS) src/AVL/main.c -o out/AVL/main.o
+
+out/AVL/avl.o: src/AVL/avl.c
+	$(CC) $(FLAGS) src/AVL/avl.c -o out/AVL/avl.o
 
 
 # clean house
