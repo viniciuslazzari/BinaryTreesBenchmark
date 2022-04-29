@@ -2,10 +2,14 @@
 #include "main.h"
 #include "abp.h"
 #include "../profiling/profiling.h"
+#include "../argParser.h"
 
-
-int main() {
+int main(int argc, char *argv[]) {
     RESET_COMP;
+
+    ParsedArgs args = parseArgs(argc, argv);
+    verificarArquivos(args);
+
     printf("ABP\n");
     ABP tree;
     inicializarABP(&tree);
