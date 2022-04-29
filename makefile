@@ -4,7 +4,8 @@
 OBJS0	= out/ABP/main.o out/file/file.o out/ABP/abp.o out/profiling/profiling.o out/argParser.o
 OUT0	= out/parafraseABP
 
-OBJS1	= out/AVL/main.o out/file/file.o out/profiling/profiling.o out/argParser.o
+
+OBJS1	= out/AVL/main.o out/file/file.o out/AVL/avl.o out/profiling/profiling.o out/argParser.o
 OUT1	= out/parafraseAVL
 
 CC	 = gcc
@@ -41,6 +42,9 @@ out/argParser.o: src/argParser.c src/argParser.h
 
 out/AVL/main.o: src/AVL/main.c
 	$(CC) $(FLAGS) src/AVL/main.c -o out/AVL/main.o
+
+out/AVL/avl.o: src/AVL/avl.c
+	$(CC) $(FLAGS) src/AVL/avl.c -o out/AVL/avl.o
 
 
 # clean house
