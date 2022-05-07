@@ -1,42 +1,50 @@
-#include <stdio.h>
 #include "main.h"
-#include "avl.h"
-#include "../profiling/profiling.h"
 
-int main() {
-
+int main(int argc, char *argv[]) {
     RESET_COMP;
 
-    AVLNo *tree = (AVLNo*) malloc(sizeof(AVLNo));
-    bool *ok = (bool*) malloc(sizeof(bool));
+    ParsedArgs args = parseArgs(argc, argv);
+    verificarArquivos(args);
+
+    AVLNo *tree = (AVLNo *) malloc(sizeof(AVLNo));
 
     printf("AVL\n");
-
     inicializarAVL(&tree);
-    
-    tree = InsereNo(tree, "teste", "prova", ok);
-    printf("Insercao - %d comparacoes\n", GET_COMP);
-
-    tree = InsereNo(tree, "certo", "correto", ok);
-    printf("Insercao - %d comparacoes\n", GET_COMP);
-
-    tree = InsereNo(tree, "pokemon", "digimon", ok);
-    printf("Insercao - %d comparacoes\n", GET_COMP);
-
-    tree = InsereNo(tree, "vinicius", "lazzari", ok);
-    printf("Insercao - %d comparacoes\n", GET_COMP);
-
-    tree = InsereNo(tree, "andorinha", "passarinho", ok);
-    printf("Insercao - %d comparacoes\n", GET_COMP);
-
-    tree = InsereNo(tree, "dado", "sorte", ok);
-    printf("Insercao - %d comparacoes\n", GET_COMP);
-
-    tree = InsereNo(tree, "123", "456", ok);
-    printf("Insercao - %d comparacoes\n", GET_COMP);
-
-    tree = InsereNo(tree, "rato", "rei", ok);
-    printf("Insercao - %d comparacoes\n", GET_COMP);
-
+    lerDicionario(&tree, args);
     imprime_identado(tree);
+    printf("Printing - %d comparacoes\n", GET_COMP);
+
+}
+
+void lerDicionario(AVLNo **arvore, ParsedArgs args) {
+    int count = 0;
+    char bufferWord[WORD_BUFFERS_SIZE];
+    char bufferSino[WORD_BUFFERS_SIZE];
+
+    FILE *dicio = openDict(args);
+
+    if (!dicio) {
+        printf("Não foi possivel abrir o dicionario;");
+        exit(1);
+    }
+
+    while (getNextWordDicio(dicio, bufferWord, bufferSino) == DICIO_OK) {
+        // Copia a palavra para evitar que todas os itens da arvore tenham um ponteiro para o mesmo texto (aconteceu...)
+        char *word = malloc(strlen(bufferWord) + 1);
+        char *sino = malloc(strlen(bufferSino) + 1);
+        strcpy(word, bufferWord);
+        strcpy(sino, bufferSino);
+        bool ok = 0;
+        // +----
+        *arvore = InsereNo(*arvore, word, sino, &ok);
+
+        count++;
+        if (count % 250 == 0) {
+            printf("Lendo %d palavras do dicionário.\n", count);
+        }
+    }
+
+    printf("Foram lidas %d palavras do dicionário.\n", count);
+    printf("Insercao - %d comparacoes\n", GET_COMP);
+    fclose(dicio);
 }
