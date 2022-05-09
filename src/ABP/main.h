@@ -5,3 +5,5 @@
 #include "../file/file.h"
 
 void lerDicionario(ABP *arvore, ParsedArgs args);
+
+void substituteWords(ABP *arvore, ParsedArgs args);

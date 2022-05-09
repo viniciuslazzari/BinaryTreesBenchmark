@@ -9,3 +9,5 @@
 int main(int argc, char *argv[]);
 
 void lerDicionario(AVLNo **arvore, ParsedArgs args);
+
+void substituteWords(AVLNo **arvore, ParsedArgs args);
