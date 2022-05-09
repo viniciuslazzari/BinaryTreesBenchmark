@@ -17,6 +17,9 @@ int main(int argc, char *argv[]) {
     printf("Raiz: %s - %s\n", tree->key, tree->sinonimo);
     printf("Printing - %d comparacoes\n", GET_COMP);
 
+    substituteWords(&tree, args);
+    printf("Arquivo escrito! \n");
+
 }
 
 void lerDicionario(ABP *arvore, ParsedArgs args) {
@@ -40,12 +43,45 @@ void lerDicionario(ABP *arvore, ParsedArgs args) {
 
         inserirABP(arvore, word, sino);
         count++;
-        if (count % 250 == 0) {
+        if (count % 1000 == 0) {
             printf("Lendo %d palavras do dicionário.\n", count);
         }
     }
 
     printf("Foram lidas %d palavras do dicionário.\n", count);
     printf("Insercao - %d comparacoes\n", GET_COMP);
+
+
     fclose(dicio);
+}
+
+void substituteWords(ABP *arvore, ParsedArgs args) {
+    FILE *input = openInput(args);
+    FILE *output = openOutput(args);
+
+    char initial[WORD_BUFFERS_SIZE];
+    char *substitute;
+    ABP found;
+    int status;
+
+
+    // https://www.wikiwand.com/en/Comma_operator
+    while (status = getWordFromInput(input, initial), status == FILE_OK) {
+        if (found = consultaABP(*arvore, initial), found != NULL) {
+            substitute = found->sinonimo;
+        } else {
+            substitute = initial;
+        }
+
+        status = addWordOutput(output, substitute);
+        if (status != FILE_OK) {
+            printf("Erro escrevendo arquivo!\n");
+            exit(1);
+        }
+    }
+
+    if (status != FILE_END) {
+        printf("Erro lendo arquivo!\n");
+        exit(1);
+    }
 }

@@ -14,8 +14,8 @@ bool estaVazia(AVLNo *no) {
     return no == NULL;
 }
 
-AVLNo* novoNo(char *key, char *sinonimo) {
-    AVLNo *no = (AVLNo*) malloc(sizeof(AVLNo));
+AVLNo *novoNo(char *key, char *sinonimo) {
+    AVLNo *no = (AVLNo *) malloc(sizeof(AVLNo));
 
     no->key = key;
     no->sinonimo = sinonimo;
@@ -26,7 +26,7 @@ AVLNo* novoNo(char *key, char *sinonimo) {
     return no;
 }
 
-AVLNo* RotacaoSimplesDireita(AVLNo *no){
+AVLNo *RotacaoSimplesDireita(AVLNo *no) {
     AVLNo *noAux;
 
     noAux = no->noEsquerdo;
@@ -38,7 +38,7 @@ AVLNo* RotacaoSimplesDireita(AVLNo *no){
     return no;
 }
 
-AVLNo* RotacaoSimplesEsquerda(AVLNo *no){
+AVLNo *RotacaoSimplesEsquerda(AVLNo *no) {
     AVLNo *noAux;
 
     noAux = no->noDireito;
@@ -50,7 +50,7 @@ AVLNo* RotacaoSimplesEsquerda(AVLNo *no){
     return no;
 }
 
-AVLNo* RotacaoDuplaDireita(AVLNo *no){
+AVLNo *RotacaoDuplaDireita(AVLNo *no) {
     AVLNo *noAuxNivel1, *noAuxNivel2;
 
     noAuxNivel1 = no->noEsquerdo;
@@ -72,7 +72,7 @@ AVLNo* RotacaoDuplaDireita(AVLNo *no){
     return no;
 }
 
-AVLNo* RotacaoDuplaEsquerda(AVLNo *no){
+AVLNo *RotacaoDuplaEsquerda(AVLNo *no) {
     AVLNo *noAuxNivel1, *noAuxNivel2;
 
     noAuxNivel1 = no->noDireito;
@@ -94,7 +94,7 @@ AVLNo* RotacaoDuplaEsquerda(AVLNo *no){
     return no;
 }
 
-AVLNo* InsereNo(AVLNo *no, char *key, char *sinonimo, bool *ok){
+AVLNo *InsereNo(AVLNo *no, char *key, char *sinonimo, bool *ok) {
     if (estaVazia(no)) {
         no = novoNo(key, sinonimo);
 
@@ -112,9 +112,16 @@ AVLNo* InsereNo(AVLNo *no, char *key, char *sinonimo, bool *ok){
             INC_COMP;
 
             switch (no->altura) {
-                case -1: no->altura = 0; *ok = false; break;
-                case 0: no->altura = 1; break;
-                case 1: no = Caso1(no, ok); break;
+                case -1:
+                    no->altura = 0;
+                    *ok = false;
+                    break;
+                case 0:
+                    no->altura = 1;
+                    break;
+                case 1:
+                    no = Caso1(no, ok);
+                    break;
             }
         }
 
@@ -127,16 +134,23 @@ AVLNo* InsereNo(AVLNo *no, char *key, char *sinonimo, bool *ok){
         INC_COMP;
 
         switch (no->altura) {
-            case 1: no->altura = 0; *ok = false; break;
-            case 0: no->altura = -1; break;
-            case -1: no = Caso2(no, ok); break;
+            case 1:
+                no->altura = 0;
+                *ok = false;
+                break;
+            case 0:
+                no->altura = -1;
+                break;
+            case -1:
+                no = Caso2(no, ok);
+                break;
         }
     }
 
     return no;
 }
 
-AVLNo* Caso1(AVLNo *no , bool *ok){
+AVLNo *Caso1(AVLNo *no, bool *ok) {
     int alturaNoEsquerdo;
 
     alturaNoEsquerdo = no->noEsquerdo->altura;
@@ -150,7 +164,7 @@ AVLNo* Caso1(AVLNo *no , bool *ok){
     return no;
 }
 
-AVLNo* Caso2(AVLNo *no , bool *ok){
+AVLNo *Caso2(AVLNo *no, bool *ok) {
     int alturaNoDireito;
 
     alturaNoDireito = no->noDireito->altura;
@@ -180,4 +194,26 @@ void imprime_identado_from(AVLNo *no, int level) {
     printf("%s (%s)\n", no->key, no->sinonimo);
 
     imprime_identado_from(no->noEsquerdo, level + 1);
+}
+
+AVLNo *consultaNo(AVLNo *no, char *key) {
+    if (estaVazia(no)) return NULL;
+
+    INC_COMP;
+    if (strcmp(no->key, key) == 0)
+        return no;
+
+    AVLNo *buscaEsq = consultaNo(no->noEsquerdo, key);
+
+    INC_COMP;
+    if (buscaEsq != NULL)
+        return buscaEsq;
+
+    AVLNo *buscaDir = consultaNo(no->noDireito, key);
+
+    INC_COMP;
+    if (buscaDir != NULL)
+        return buscaDir;
+
+    return NULL;
 }

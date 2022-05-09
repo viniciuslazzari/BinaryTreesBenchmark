@@ -14,6 +14,9 @@ int main(int argc, char *argv[]) {
     imprime_identado(tree);
     printf("Printing - %d comparacoes\n", GET_COMP);
 
+    substituteWords(&tree, args);
+    printf("Arquivo escrito! \n");
+
 }
 
 void lerDicionario(AVLNo **arvore, ParsedArgs args) {
@@ -47,4 +50,36 @@ void lerDicionario(AVLNo **arvore, ParsedArgs args) {
     printf("Foram lidas %d palavras do dicionário.\n", count);
     printf("Insercao - %d comparacoes\n", GET_COMP);
     fclose(dicio);
+}
+
+
+void substituteWords(AVLNo **arvore, ParsedArgs args) {
+    FILE *input = openInput(args);
+    FILE *output = openOutput(args);
+
+    char initial[WORD_BUFFERS_SIZE];
+    char *substitute;
+    AVLNo *found;
+    int status;
+
+
+    // https://www.wikiwand.com/en/Comma_operator
+    while (status = getWordFromInput(input, initial), status == FILE_OK) {
+        if (found = consultaNo(*arvore, initial), found != NULL) {
+            substitute = found->sinonimo;
+        } else {
+            substitute = initial;
+        }
+
+        status = addWordOutput(output, substitute);
+        if (status != FILE_OK) {
+            printf("Erro escrevendo arquivo!\n");
+            exit(1);
+        }
+    }
+
+    if (status != FILE_END) {
+        printf("Erro lendo arquivo!\n");
+        exit(1);
+    }
 }
