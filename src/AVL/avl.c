@@ -4,6 +4,10 @@
 #include <string.h>
 #include <stdio.h>
 
+int max(int a, int b) {
+    return a > b ? a : b;
+}
+
 void inicializarAVL(AVLNo **no) {
     *no = NULL;
 }
@@ -12,6 +16,12 @@ bool estaVazia(AVLNo *no) {
     INC_COMP;
 
     return no == NULL;
+}
+
+int retornaAltura(AVLNo *no) {
+    if (estaVazia(no)) return 0;
+    
+    return max(retornaAltura(no->noDireito) + 1, retornaAltura(no->noEsquerdo) + 1);
 }
 
 AVLNo *novoNo(char *key, char *sinonimo) {
@@ -29,6 +39,8 @@ AVLNo *novoNo(char *key, char *sinonimo) {
 AVLNo *RotacaoSimplesDireita(AVLNo *no) {
     AVLNo *noAux;
 
+    INC_ROTATIONS;
+
     noAux = no->noEsquerdo;
     no->noEsquerdo = noAux->noDireito;
     noAux->noDireito = no;
@@ -41,6 +53,8 @@ AVLNo *RotacaoSimplesDireita(AVLNo *no) {
 AVLNo *RotacaoSimplesEsquerda(AVLNo *no) {
     AVLNo *noAux;
 
+    INC_ROTATIONS;
+
     noAux = no->noDireito;
     no->noDireito = noAux->noEsquerdo;
     noAux->noEsquerdo = no;
@@ -52,6 +66,8 @@ AVLNo *RotacaoSimplesEsquerda(AVLNo *no) {
 
 AVLNo *RotacaoDuplaDireita(AVLNo *no) {
     AVLNo *noAuxNivel1, *noAuxNivel2;
+
+    INC_ROTATIONS;
 
     noAuxNivel1 = no->noEsquerdo;
     noAuxNivel2 = noAuxNivel1->noDireito;
@@ -74,6 +90,8 @@ AVLNo *RotacaoDuplaDireita(AVLNo *no) {
 
 AVLNo *RotacaoDuplaEsquerda(AVLNo *no) {
     AVLNo *noAuxNivel1, *noAuxNivel2;
+
+    INC_ROTATIONS;
 
     noAuxNivel1 = no->noDireito;
     noAuxNivel2 = noAuxNivel1->noEsquerdo;
@@ -200,20 +218,10 @@ AVLNo *consultaNo(AVLNo *no, char *key) {
     if (estaVazia(no)) return NULL;
 
     INC_COMP;
-    if (strcmp(no->key, key) == 0)
-        return no;
-
-    AVLNo *buscaEsq = consultaNo(no->noEsquerdo, key);
+    if (strcmp(no->key, key) == 0) return no;
 
     INC_COMP;
-    if (buscaEsq != NULL)
-        return buscaEsq;
+    if (strcmp(no->key, key) > 0) return consultaNo(no->noEsquerdo, key);
 
-    AVLNo *buscaDir = consultaNo(no->noDireito, key);
-
-    INC_COMP;
-    if (buscaDir != NULL)
-        return buscaDir;
-
-    return NULL;
+    return consultaNo(no->noDireito, key);
 }

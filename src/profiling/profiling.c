@@ -6,5 +6,5 @@
 
 
 int comp = 0;
-
+int rotations = 0;
 

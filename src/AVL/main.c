@@ -11,11 +11,25 @@ int main(int argc, char *argv[]) {
     printf("AVL\n");
     inicializarAVL(&tree);
     lerDicionario(&tree, args);
-    imprime_identado(tree);
-    printf("Printing - %d comparacoes\n", GET_COMP);
+
+    printf("\n========= ESTATISTICAS AVL =========\n");
+    printf("\nINSERCAO\n\n");
+
+    printf("Comparacoes: %d \n", GET_COMP);
+    printf("Rotacoes: %d \n", GET_ROTATIONS);
+    printf("Altura: %d \n", retornaAltura(tree));
+
+    RESET_COMP;
+    RESET_ROTATIONS;
 
     substituteWords(&tree, args);
-    printf("Arquivo escrito! \n");
+
+    printf("\nTRADUCAO\n\n");
+    printf("Comparacoes: %d \n", GET_COMP);
+
+    printf("\n====================================\n");
+
+    printf("\nArquivo escrito!\n");
 
 }
 
@@ -48,7 +62,6 @@ void lerDicionario(AVLNo **arvore, ParsedArgs args) {
     }
 
     printf("Foram lidas %d palavras do dicionário.\n", count);
-    printf("Insercao - %d comparacoes\n", GET_COMP);
     fclose(dicio);
 }
 
@@ -61,7 +74,6 @@ void substituteWords(AVLNo **arvore, ParsedArgs args) {
     char *substitute;
     AVLNo *found;
     int status;
-
 
     // https://www.wikiwand.com/en/Comma_operator
     while (status = getWordFromInput(input, initial), status == FILE_OK) {

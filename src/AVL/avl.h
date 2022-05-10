@@ -20,6 +20,8 @@ void inicializarAVL(AVLNo **no);
 
 bool estaVazia(AVLNo *no);
 
+int retornaAltura(AVLNo *no);
+
 AVLNo *RotacaoSimplesDireita(AVLNo *no);
 
 AVLNo *RotacaoSimplesEsquerda(AVLNo *no);
