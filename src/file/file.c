@@ -43,6 +43,10 @@ int getNextWordDicio(FILE *dicio, char *word, char *sinonimo) {
         }
     }
 
+    if (stage == 0) {
+        return DICIO_END;
+    }
+
     sinonimo[pos] = 0;
     return DICIO_OK;
 }
