@@ -27,7 +27,11 @@ int getNextWordDicio(FILE *dicio, char *word, char *sinonimo) {
             pos = 0;
             continue;
         }
-        if (ch == '\n' || ch == '\r') {
+        if (ch == '\n') {
+            break;
+        }
+        if (ch == '\r') {
+            fgetc(dicio);
             break;
         }
         if (stage == 0) {
