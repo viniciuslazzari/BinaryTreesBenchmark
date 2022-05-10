@@ -13,12 +13,24 @@ int main(int argc, char *argv[]) {
 
     lerDicionario(&tree, args);
 
-    pretty_print(tree);
-    printf("Raiz: %s - %s\n", tree->key, tree->sinonimo);
-    printf("Printing - %d comparacoes\n", GET_COMP);
+    printf("\n========= ESTATISTICAS ABP =========\n");
+    printf("\nINSERCAO\n\n");
+
+    printf("Comparacoes: %d \n", GET_COMP);
+    printf("Altura: %d \n", getAltura(tree));
+
+    RESET_COMP;
 
     substituteWords(&tree, args);
-    printf("Arquivo escrito! \n");
+
+    printf("\nTRADUCAO\n\n");
+    printf("Comparacoes: %d \n", GET_COMP);
+
+    printf("\n====================================\n");
+
+    printf("\nArquivo escrito!\n");
+
+    //pretty_print(tree);
 
 }
 
@@ -50,7 +62,6 @@ void lerDicionario(ABP *arvore, ParsedArgs args) {
 
     printf("Foram lidas %d palavras do dicionário.\n", count);
     printf("Insercao - %d comparacoes\n", GET_COMP);
-
 
     fclose(dicio);
 }

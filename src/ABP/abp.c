@@ -130,26 +130,16 @@ ABPNo* _removerDir(ABP *arvore) {
     return excluido;
 }
 
-ABPNo*  consultaABP(ABP arvore, ABPDado key) {
+ABPNo* consultaABP(ABP arvore, ABPDado key) {
     if (isVazia(arvore)) return NULL;
 
     INC_COMP;
-    if (strcmp(arvore->key ,key) == 0)
-        return arvore;
-
-    ABPNo* buscaEsq = consultaABP(arvore->esquerda, key);
+    if (strcmp(arvore->key, key) == 0) return arvore;
 
     INC_COMP;
-    if (buscaEsq != NULL)
-        return buscaEsq;
-     
-    ABPNo* buscaDir = consultaABP(arvore->direita, key);
+    if (strcmp(arvore->key, key) > 0) return consultaABP(arvore->esquerda, key);
 
-    INC_COMP;
-    if (buscaDir != NULL) 
-        return buscaDir;
-
-    return NULL;
+    return consultaABP(arvore->direita, key);
 }
 
 int contaNos(ABP arvore) {

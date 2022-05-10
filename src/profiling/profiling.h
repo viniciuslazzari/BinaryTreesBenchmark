@@ -13,6 +13,9 @@ extern int comp;
 #define GET_COMP comp
 #define RESET_COMP comp=0
 
-
+extern int rotations; 
+#define INC_ROTATIONS rotations++
+#define GET_ROTATIONS rotations
+#define RESET_ROTATIONS rotations=0
 
 #endif // _PROFILING_H_
