@@ -78,7 +78,9 @@ void substituteWords(ABP *arvore, ParsedArgs args) {
 
     // https://www.wikiwand.com/en/Comma_operator
     while (status = getWordFromInput(input, initial), status == FILE_OK) {
-        if (found = consultaABP(*arvore, initial), found != NULL) {
+        if (isSeparator(initial[0])) {
+            substitute = initial;
+        } else if (found = consultaABP(*arvore, initial), found != NULL) {
             substitute = found->sinonimo;
         } else {
             substitute = initial;

@@ -22,5 +22,6 @@ int getNextWordDicio(FILE *dicio, char *word, char *sinonimo);
 
 int getWordFromInput(FILE *input, char *word);
 
+int isSeparator(char ch);
 
 int addWordOutput(FILE *output, char *word);

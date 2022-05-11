@@ -56,7 +56,7 @@ void lerDicionario(AVLNo **arvore, ParsedArgs args) {
         *arvore = InsereNo(*arvore, word, sino, &ok);
 
         count++;
-        if (count % 250 == 0) {
+        if (count % 1000 == 0) {
             printf("Lendo %d palavras do dicionário.\n", count);
         }
     }
@@ -77,7 +77,9 @@ void substituteWords(AVLNo **arvore, ParsedArgs args) {
 
     // https://www.wikiwand.com/en/Comma_operator
     while (status = getWordFromInput(input, initial), status == FILE_OK) {
-        if (found = consultaNo(*arvore, initial), found != NULL) {
+        if (isSeparator(initial[0])) {
+            substitute = initial;
+        } else if (found = consultaNo(*arvore, initial), found != NULL) {
             substitute = found->sinonimo;
         } else {
             substitute = initial;
